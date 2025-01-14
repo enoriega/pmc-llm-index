@@ -8,5 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Artifact files
 oa_file_list*
 database.db
+.env
