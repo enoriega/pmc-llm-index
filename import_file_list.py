@@ -1,3 +1,4 @@
+import os
 import re
 import csv
 from datetime import datetime
@@ -7,14 +8,25 @@ from sqlalchemy import insert
 from sqlalchemy.orm import Session
 from sqlmodel import SQLModel, create_engine
 from tqdm import tqdm
-
+from typer import Typer
 from models import Article, Journal, License
 logging.basicConfig(level = logging.INFO)
-engine = create_engine("sqlite:///database6.db")
-citation_pattern = re.compile(r"^((?P<title>.+)\.)?(?P<year> \d+)?(?P<month> [\w\-]+)?(?P<day> \d+)?(?P<note> .+)?;(?P<vol>[:\d\w\s\-/\.]+)?(?P<issue>\(.+\))?(?P<eaccession>( doi)?:.+)?$")
 
-def import_file_list(path:Path) -> None:
-	""" Imports a PMC file lists into the database """
+app = Typer()
+
+@app.command()
+def import_file_list(path:Path, connection_string:str|None = None) -> None:
+	""" Imports a list of PMC file lists into the database """
+
+	citation_pattern = re.compile(r"^((?P<title>.+)\.)?(?P<year> \d+)?(?P<month> [\w\-]+)?(?P<day> \d+)?(?P<note> .+)?;(?P<vol>[:\d\w\s\-/\.]+)?(?P<issue>\(.+\))?(?P<eaccession>( doi)?:.+)?$")
+
+	if not connection_string:
+		connection_string = os.getenv("CONNECTION_STRING")
+
+	print(connection_string)
+	
+	engine = create_engine(connection_string)
+	SQLModel.metadata.create_all(engine)
 	with Session(engine, autocommit=False) as session:
 		
 		articles = []
@@ -22,7 +34,7 @@ def import_file_list(path:Path) -> None:
 		license_type = {}
 		journals = {}
 
-		for p in path.glob("*.csv"):
+		for p in path.glob("*filelist.csv"):
 			logging.info(f"Reading {p.name}")
 			with p.open("r") as f:
 				if p.name.startswith("oa_comm"):
@@ -101,5 +113,4 @@ def import_file_list(path:Path) -> None:
 
 
 if __name__ == "__main__":
-	SQLModel.metadata.create_all(engine)
-	import_file_list(Path("data"))
+	app()

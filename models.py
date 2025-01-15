@@ -1,7 +1,7 @@
 """ SQL Models for PMC OA """
 
 from typing import Optional
-from sqlmodel import SQLModel, Field, ForeignKey
+from sqlmodel import SQLModel, Field
 from datetime import datetime
 
 class Article(SQLModel, table=True):
