@@ -11,5 +11,6 @@ wheels/
 
 # Artifact files
 oa_file_list*
-database.db
+*.db
 .env
+.DS_Store

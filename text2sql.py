@@ -28,14 +28,30 @@ Your task is to generate the SQL statements necessary that resemble the user's q
 
 Tables:
 
-article: // Represents an article archived in Pubmed Central Open Access (PMC OA)
-  id (INTEGER)	// Primary key, the numerical id of the article within the database
-  path (VARCHAR)	// The path of the archive file that contains the files associated to the article
-  citation (VARCHAR)	// String used to cite the article in a bibliography. This citation contains the journal name, the issue and the page range where the article appears
-  pmcid (VARCHAR)	// PMC identifier, a unique identifier assigned to each article in PMC OA
+Schema for table article:
+  id (INTEGER) // Primary key, the numerical id of the article within the database
+  path (VARCHAR) // The path of the archive file that contains the files associated to the article
+  pmcid (VARCHAR) // PMC identifier, a unique identifier assigned to each article in PMC OA
+  pmid (VARCHAR) // PubMed identifier, a unique identifier assigned to each article in PubMed. This identifier is different from the PMC identifier
   last_updated (DATETIME) // Time stamp of the last time the article was updated
-  pmid (VARCHAR)	// PubMed identifier, a unique identifier assigned to each article in PubMed. This identifier is different from the PMC identifier
-  license (VARCHAR) // The license under which the article is distributed
+  journal_id (INTEGER) // Foreign key to the journal table. Use this key to join to the journal table when you need to retrieve the journal's name
+  year (INTEGER)	// Year of the article's publication
+  month (VARCHAR) // Month or month range of the article's publication
+  day (INTEGER) // Day of the month of the article's publication
+  volume (INTEGER) // Volume of the journal in which the article was published
+  issue (INTEGER) // Issue of the journal in which the article was published
+  eaccession (VARCHAR) // Electronic accession number of the article, This can be the page number, the range of the page numbers, a DOI, or any other identifier
+  license_id (INTEGER) // Foreign key to the license table. Use this key to join to the license table when you need to retrieve the license's name
+
+Schema for table journal:
+  id (INTEGER) // Primary key, the numerical id of the journal within the database
+  commercial (BOOLEAN) // Indicates whether the journal is a commercial journal or not
+  name (VARCHAR) // The name of the journal. This is the name that is used to refer to the journal in the article's citation
+
+Schema for table license:
+  id (INTEGER) // Primary key, the numerical id of the license within the database
+  name (VARCHAR) // The name of the license under which the article is distributed
+
 """.strip()
 
 """ Generate SQL from a user query """
