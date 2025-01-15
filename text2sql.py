@@ -42,6 +42,7 @@ Schema for table article:
   issue (INTEGER) // Issue of the journal in which the article was published
   eaccession (VARCHAR) // Electronic accession number of the article, This can be the page number, the range of the page numbers, a DOI, or any other identifier
   license_id (INTEGER) // Foreign key to the license table. Use this key to join to the license table when you need to retrieve the license's name
+  retracted (BOOLEAN) // Indicates whether the article has been retracted or not
 
 Schema for table journal:
   id (INTEGER) // Primary key, the numerical id of the journal within the database

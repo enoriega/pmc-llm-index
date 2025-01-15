@@ -19,6 +19,7 @@ class Article(SQLModel, table=True):
 	issue:Optional[int]
 	eaccession:Optional[str]
 	license_id:int | None = Field(foreign_key="license.id")
+	retracted:bool = Field(default=False)
 
 class License(SQLModel, table=True):
 	id:Optional[int] = Field(default=None, primary_key=True)
@@ -26,5 +27,5 @@ class License(SQLModel, table=True):
 
 class Journal(SQLModel, table=True):
 	id:Optional[int] = Field(default=None, primary_key=True)
-	commercial:bool = Field(default=False)
+	commercial:bool | None = Field(default=False)
 	name:str

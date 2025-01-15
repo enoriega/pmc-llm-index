@@ -14,3 +14,4 @@ oa_file_list*
 *.db
 .env
 .DS_Store
+data/*
