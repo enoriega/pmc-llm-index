@@ -15,3 +15,4 @@ oa_file_list*
 .env
 .DS_Store
 data/*
+.env_qwen
