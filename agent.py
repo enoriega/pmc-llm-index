@@ -83,8 +83,7 @@ def spin_agent(model: str, type: str, connection_string: str,
 		Agent: The agent with the specified model, type, and connection string.
 	"""
 
-	# model = HfApiModel(model, temperature)
-	model = LiteLLMModel("openai/Qwen/Qwen2.5-Coder-32B-Instruct", api_base="https://localhost:8000/v1", temperature=temperature)
+	model = HfApiModel(model, temperature)
 	
 	match type:
 		case "tool_calling":
